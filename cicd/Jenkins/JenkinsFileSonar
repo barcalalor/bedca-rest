@@ -1,0 +1,53 @@
+pipeline {
+    agent {
+        label 'slave_mac'
+    }
+    environment {
+        NVM_DIR="/Users/jenkins.mobile/.nvm"
+        NVM_CD_FLAGS="-q"
+        CREDENTIAL = "/usr/local/Cellar/docker-credential-helper-ecr/0.4.0/bin"
+        NVM_BIN="/Users/jenkins.mobile/.nvm/versions/node/v10.15.3/bin"
+        PATH="${NVM_BIN}:${GRADLE_HOME}:${env.PATH}:${CREDENTIAL}"
+        scannerHome = tool 'SonarQubeScanner'
+    }
+    stages{
+        stage('Checkout Code') {
+           	steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: 'develop']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [[$class: 'CheckoutOption', shallow: false,timeout: 10], [$class: 'CloneOption', depth: 5, noTags: false, reference: '', timeout: 10], [$class: 'CleanBeforeCheckout'], [$class: 'AuthorInChangelog']],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[credentialsId: 'automatitzacio', name: 'origin', url: 'git@code.grupoica.cat:electrans/e-ctrl/auth/python-api.git']]
+                ])
+                echo "Checkout Ok"
+            }
+        }
+       stage("Docker Start"){
+            steps {
+                sh '/usr/local/bin/docker-compose -f docker-compose-quality.yml build'
+                sh '/usr/local/bin/docker-compose -f docker-compose-quality.yml up -d'
+                echo "Build and run"
+            }
+        }
+        stage('SonarQube Scanner') {
+            steps {
+                echo "SonarQube"
+                    withSonarQubeEnv('SonarQube') {
+                        sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=./cicd/sonarqube/sonar-project.properties -Dsonar.projectVersion=\"1.0.0\""
+                    }
+                    sleep(10);
+                    timeout(time: 10, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
+        }
+    }
+     post {
+            always {
+                junit "test-reports/**/*.xml"
+                echo 'Always'
+            }
+        }
+ }
