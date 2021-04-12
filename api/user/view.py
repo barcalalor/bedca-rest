@@ -1,13 +1,19 @@
-from rest_framework.decorators import action
-from rest_framework.response import Response
 from .serializers import UserSerializer
 from api.user import serializers
 from rest_framework import viewsets
 
 from authentification.models import User
+from rest_framework import viewsets
+
+from api.user import serializers
+from authentification.models import User
+from .serializers import UserSerializer
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
 
 class UserViewSet(viewsets.ModelViewSet):
 
@@ -24,5 +30,3 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.action == 'update':
             return serializers.UserSerializerUpdate
         return serializers.UserSerializerDetail
-
-  

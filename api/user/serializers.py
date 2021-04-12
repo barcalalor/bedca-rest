@@ -1,6 +1,9 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.tokens import Token
 
 from authentification.models import User
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -11,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         Token.objects.create(user=user)
         return user
+
 
 class UserSerializerList(serializers.ModelSerializer):
     class Meta:
@@ -34,6 +38,3 @@ class UserSerializerUpdate(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
-
-
-

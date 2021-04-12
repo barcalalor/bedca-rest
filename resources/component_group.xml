@@ -1,0 +1,18 @@
+<foodquery>
+    <type level="2"/>
+    <selection>
+        <atribute name="cg_id"/>
+        <atribute name="cg_descripcion"/>
+        <atribute name="cg_description"/>
+    </selection>
+    <condition>
+        <cond1>
+            <atribute1 name="publico"/>
+        </cond1>
+        <relation type="EQUAL"/>
+        <cond3>1</cond3>
+    </condition>
+    <order ordtype="ASC">
+        <atribute3 name="componentgroup_id"/>
+    </order>
+</foodquery>

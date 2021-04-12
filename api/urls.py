@@ -15,10 +15,14 @@ Including another URLconf
 """
 from rest_framework.routers import DefaultRouter
 
-from api.camera.view import CameraViewSet
+from api.food.view import FoodViewSet
+from api.foodgroup.view import FoodGroupViewSet
+from api.componentgroup.view import ComponentViewSet
 from api.user.view import UserViewSet
 
 router = DefaultRouter()
 
 router.register("users", UserViewSet, basename="users")
-router.register("cameras", CameraViewSet, basename="cameras")
+router.register("food", FoodViewSet, basename="food")
+router.register("foodgroup", FoodGroupViewSet, basename="foodgroup")
+router.register("componentgroup", ComponentViewSet, basename="componentgroup")
