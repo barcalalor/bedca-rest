@@ -20,15 +20,19 @@ class ComponentGroup(models.Model):
         return self.es_description
 
 
-class Component(models.Model):
+class ComponentType(models.Model):
+    group = models.ForeignKey(ComponentGroup, on_delete=models.CASCADE, null=True)
     es_description = models.CharField(max_length=255)
     en_description = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
-    meassure = models.CharField(max_length=255)
-    group = models.ForeignKey(ComponentGroup, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.es_description
+
+
+class Component(models.Model):
+    type = models.ForeignKey(ComponentType, on_delete=models.CASCADE)
+    value = models.CharField(max_length=255, null=True)
+    meassure = models.CharField(max_length=255)
 
 
 class Food(models.Model):

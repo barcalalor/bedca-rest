@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 # Define a new User admin
-from core.models import Food, FoodGroup, ComponentGroup, Component
+from core.models import Food, FoodGroup, ComponentGroup, Component, ComponentType
 
 
 @admin.register(Food)
@@ -23,3 +23,7 @@ class ComponentGroupAdmin(admin.ModelAdmin):
 @admin.register(Component)
 class ComponentAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(ComponentType)
+class ComponentTypeAdmin(admin.ModelAdmin):
+    search_fields=('id',)

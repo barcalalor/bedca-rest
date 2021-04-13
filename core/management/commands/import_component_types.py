@@ -8,4 +8,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         bedca = BEDCAScrapper("https://www.bedca.net/bdpub/procquery.php")
-        bedca.import_food_groups()
+        bedca.import_component_types()
