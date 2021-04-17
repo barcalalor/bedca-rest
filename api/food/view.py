@@ -3,10 +3,12 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from api.food import serializers
+from api.food.filters import FoodFilter
 from core.models import Food
 
 
 class FoodViewSet(viewsets.ModelViewSet):
+    filterset_class = FoodFilter
 
     def get_queryset(self):
         return Food.objects.all()
@@ -25,4 +27,3 @@ class FoodViewSet(viewsets.ModelViewSet):
         food = Food.objects.get(id=pk)
         serializer = serializers.FoodProfileSerializer(food)
         return Response(serializer.data)
-

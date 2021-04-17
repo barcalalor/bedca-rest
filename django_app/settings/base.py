@@ -73,7 +73,9 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
 }
 
 ROOT_URLCONF = 'django_app.urls'
@@ -132,8 +134,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 DATABASE_URL = config('DATABASE_URL')
-DATABASES ={}
+DATABASES = {}
 # Variables del cors
 CORS_ORIGIN_ALLOW_ALL = True
