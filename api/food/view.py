@@ -19,7 +19,7 @@ class FoodViewSet(viewsets.ModelViewSet):
         if self.action == "retrieve":
             return serializers.FoodSerializerDetail
         if self.action == "profile":
-            return serializers.FoodSerializerDetail
+            return serializers.FoodProfileSerializer
         return serializers.FoodSerializerList
 
     @action(detail=True, methods=['GET'])
